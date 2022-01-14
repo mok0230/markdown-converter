@@ -1,5 +1,5 @@
 {
-  "name": "slackify-markdown",
+  "name": "markdown-converter",
   "version": "4.3.1",
   "description": "Convert markdown into Slack-specific markdown",
   "license": "MIT",
