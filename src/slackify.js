@@ -128,7 +128,8 @@ const createHandlers = (definitions, isTelegram) => ({
   text: (node, _parent, context) => {
     const exit = context.enter('text');
     // https://api.slack.com/reference/surfaces/formatting#escaping
-    const text = node.value
+
+    const text = isTelegram ? node.value : node.value
       .replace(/&/g, '&amp;')
       .replace(/<(?!@)/g, '&lt;')
       .replace(/(?<!@[A-Z0-9]+)>/g, '&gt;');
