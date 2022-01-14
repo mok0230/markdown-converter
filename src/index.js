@@ -6,13 +6,13 @@ const unified = require('unified');
 const { collectDefinitions, removeDefinitions } = require('./definitions');
 const createSlackifyOptions = require('./slackify');
 
-module.exports = (markdown, options) => {
+module.exports = (markdown, isTelegram) => {
   const definitions = {};
 
-  const slackifyOptions = createSlackifyOptions(definitions);
+  const slackifyOptions = createSlackifyOptions(definitions, isTelegram);
 
   return unified()
-    .use(parse, options)
+    .use(parse)
     // Delete node is defined in GFM
     // https://github.com/syntax-tree/mdast/blob/main/readme.md#gfm
     .use(gfm)

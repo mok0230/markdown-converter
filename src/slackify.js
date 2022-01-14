@@ -15,7 +15,7 @@ const zeroWidthSpace = String.fromCharCode(0x200B);
  *
  * @returns {import('mdast-util-to-markdown').Handlers}
  */
-const createHandlers = definitions => ({
+const createHandlers = (definitions, isTelegram) => ({
   heading: (node, _parent, context) => {
     // make headers to be just *strong*
     const marker = '*';
@@ -79,7 +79,11 @@ const createHandlers = definitions => ({
 
     if (!isURL(url)) return text || url;
 
-    return text ? `<${url}|${text}>` : `<${url}>`;
+    if (text) {
+      return isTelegram ? `[${text}](${url})` : `<${url}|${text}>`
+    } else {
+      return isTelegram ? `[${url}](${url})` : `<${url}>`
+    }
   },
 
   linkReference: (node, _parent, context) => {
@@ -142,9 +146,9 @@ const createHandlers = definitions => ({
  *
  * @returns {import('remark-stringify').RemarkStringifyOptions}
  */
-const createOptions = definitions => ({
+const createOptions = (definitions, isTelegram) => ({
   bullet: '*',
-  handlers: createHandlers(definitions),
+  handlers: createHandlers(definitions, isTelegram),
 });
 
 module.exports = createOptions;
