@@ -1,4 +1,8 @@
+interface Options {
+  target: 'html' | 'slack' | 'telegram' | ' discord'
+}
+
 declare module "transpile-md" {
-  function transpileMd(markdown: string, isTelegram?: boolean): string;
+  function transpileMd(markdown: string, options: Options): string;
   export = transpileMd;
 }
