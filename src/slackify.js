@@ -15,7 +15,7 @@ const zeroWidthSpace = String.fromCharCode(0x200B);
  *
  * @returns {import('mdast-util-to-markdown').Handlers}
  */
-const createHandlers = (definitions, isTelegram) => ({
+const createHandlers = (definitions, options) => ({
   heading: (node, _parent, context) => {
     // make headers to be just *strong*
     const marker = '*';
@@ -80,9 +80,9 @@ const createHandlers = (definitions, isTelegram) => ({
     if (!isURL(url)) return text || url;
 
     if (text) {
-      return isTelegram ? `[${text}](${url})` : `<${url}|${text}>`
+      return options.target.telegram ? `[${text}](${url})` : `<${url}|${text}>`
     } else {
-      return isTelegram ? `[${url}](${url})` : `<${url}>`
+      return options.target.telegram ? `[${url}](${url})` : `<${url}>`
     }
   },
 
@@ -96,9 +96,9 @@ const createHandlers = (definitions, isTelegram) => ({
     if (!definition || !isURL(definition.url)) return text;
 
     if (text) {
-      return isTelegram ? `[${text}](${definition.url})` : `<${definition.url}|${text}>`
+      return options.target.telegram ? `[${text}](${definition.url})` : `<${definition.url}|${text}>`
     } else {
-      return isTelegram ? `[${url}](${definition.url})` : `<${definition.url}>`
+      return options.target.telegram ? `[${url}](${definition.url})` : `<${definition.url}>`
     }
   },
 
@@ -129,7 +129,7 @@ const createHandlers = (definitions, isTelegram) => ({
     const exit = context.enter('text');
     // https://api.slack.com/reference/surfaces/formatting#escaping
 
-    const text = isTelegram ? node.value : node.value
+    const text = options.target.telegram ? node.value : node.value
       .replace(/&/g, '&amp;')
       .replace(/<(?!@)/g, '&lt;')
       .replace(/(?<!@[A-Z0-9]+)>/g, '&gt;');
@@ -151,9 +151,9 @@ const createHandlers = (definitions, isTelegram) => ({
  *
  * @returns {import('remark-stringify').RemarkStringifyOptions}
  */
-const createOptions = (definitions, isTelegram) => ({
+const createOptions = (definitions, options) => ({
   bullet: '*',
-  handlers: createHandlers(definitions, isTelegram),
+  handlers: createHandlers(definitions, options),
 });
 
 module.exports = createOptions;
