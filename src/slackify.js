@@ -37,15 +37,15 @@ const createHandlers = (definitions, options) => ({
     return wrap(value, zeroWidthSpace, marker);
   },
 
-  // delete(node, _parent, context) {
-  //   const marker = '~';
+  delete(node, _parent, context) {
+    const marker = '~';
 
-  //   const exit = context.enter('delete');
-  //   const value = phrasing(node, context, { before: marker, after: marker });
-  //   exit();
+    const exit = context.enter('delete');
+    const value = phrasing(node, context, { before: marker, after: marker });
+    exit();
 
-  //   return wrap(value, zeroWidthSpace, marker);
-  // },
+    return wrap(value, zeroWidthSpace, marker);
+  },
 
   emphasis: (node, _parent, context) => {
     const marker = '_';
@@ -57,18 +57,18 @@ const createHandlers = (definitions, options) => ({
     return wrap(value, zeroWidthSpace, marker);
   },
 
-  // listItem: (...args) => defaultHandlers
-  //   .listItem(...args)
-  //   .replace(/^\*/, '•'),
+  listItem: (...args) => defaultHandlers
+    .listItem(...args)
+    .replace(/^\*/, '•'),
 
-  // code(node, _parent, context) {
-  //   const exit = context.enter('code');
-  //   // delete language prefix for deprecated markdown formatters (old Bitbucket Editor)
-  //   const content = node.value.replace(/^#![a-z]+\n/, ''); // ```\n#!javascript\ncode block\n```
-  //   exit();
+  code(node, _parent, context) {
+    const exit = context.enter('code');
+    // delete language prefix for deprecated markdown formatters (old Bitbucket Editor)
+    const content = node.value.replace(/^#![a-z]+\n/, ''); // ```\n#!javascript\ncode block\n```
+    exit();
 
-  //   return wrap(content, '```', '\n');
-  // },
+    return wrap(content, '```', '\n');
+  },
 
   link: (node, _parent, context) => {
     const exit = context.enter('link');
@@ -102,28 +102,28 @@ const createHandlers = (definitions, options) => ({
     }
   },
 
-  // image: (node, _parent, context) => {
-  //   const exit = context.enter('image');
-  //   const text = node.alt || node.title;
-  //   const url = encodeURI(node.url);
-  //   exit();
+  image: (node, _parent, context) => {
+    const exit = context.enter('image');
+    const text = node.alt || node.title;
+    const url = encodeURI(node.url);
+    exit();
 
-  //   if (!isURL(url)) return text || url;
+    if (!isURL(url)) return text || url;
 
-  //   return text ? `<${url}|${text}>` : `<${url}>`;
-  // },
+    return text ? `<${url}|${text}>` : `<${url}>`;
+  },
 
-  // imageReference: (node, _parent, context) => {
-  //   const exit = context.enter('imageReference');
-  //   const definition = definitions[node.identifier];
-  //   const text = node.alt
-  //     || (definition ? definition.title : null);
-  //   exit();
+  imageReference: (node, _parent, context) => {
+    const exit = context.enter('imageReference');
+    const definition = definitions[node.identifier];
+    const text = node.alt
+      || (definition ? definition.title : null);
+    exit();
 
-  //   if (!definition || !isURL(definition.url)) return text;
+    if (!definition || !isURL(definition.url)) return text;
 
-  //   return text ? `<${definition.url}|${text}>` : `<${definition.url}>`;
-  // },
+    return text ? `<${definition.url}|${text}>` : `<${definition.url}>`;
+  },
 
   text: (node, _parent, context) => {
     const exit = context.enter('text');
