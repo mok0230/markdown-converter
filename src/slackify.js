@@ -80,9 +80,9 @@ const createHandlers = (definitions, options) => ({
     if (!isURL(url)) return text || url;
 
     if (text) {
-      return options.target.telegram ? `[${text}](${url})` : `<${url}|${text}>`
+      return `<${url}|${text}>`
     } else {
-      return options.target.telegram ? `[${url}](${url})` : `<${url}>`
+      return `<${url}>`
     }
   },
 
@@ -96,9 +96,9 @@ const createHandlers = (definitions, options) => ({
     if (!definition || !isURL(definition.url)) return text;
 
     if (text) {
-      return options.target.telegram ? `[${text}](${definition.url})` : `<${definition.url}|${text}>`
+      return `<${definition.url}|${text}>`;
     } else {
-      return options.target.telegram ? `[${url}](${definition.url})` : `<${definition.url}>`
+      return `<${definition.url}>`;
     }
   },
 
@@ -129,7 +129,7 @@ const createHandlers = (definitions, options) => ({
     const exit = context.enter('text');
     // https://api.slack.com/reference/surfaces/formatting#escaping
 
-    const text = options.target.telegram ? node.value : node.value
+    const text = node.value
       .replace(/&/g, '&amp;')
       .replace(/<(?!@)/g, '&lt;')
       .replace(/(?<!@[A-Z0-9]+)>/g, '&gt;');
