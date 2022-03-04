@@ -1,4 +1,4 @@
-declare module "markdown-converter" {
+declare module "transpile-md" {
   function convertMarkdown(markdown: string, isTelegram?: boolean): string;
   export = convertMarkdown;
 }

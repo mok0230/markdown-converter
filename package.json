@@ -1,7 +1,7 @@
 {
-  "name": "markdown-converter",
-  "version": "4.3.1",
-  "description": "Convert markdown into Slack-specific markdown",
+  "name": "transpile-md",
+  "version": "1.0.0",
+  "description": "write messages once, transpile many times",
   "license": "MIT",
   "main": "index.js",
   "types": "index.d.ts",
@@ -12,24 +12,26 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/jsarafajr/slackify-markdown.git"
+    "url": "git://github.com/mok0230/transpile-md.git"
   },
   "keywords": [
-    "slack",
+    "transpile",
     "markdown",
-    "slackify",
+    "slack",
+    "telegram",
+    "discord",
     "parser",
     "remark",
     "unified"
   ],
   "author": {
-    "name": "Yevhenii Baraniuk",
-    "web": "https://github.com/jsarafajr"
+    "name": "mok",
+    "web": "https://github.com/mok0230"
   },
   "bugs": {
-    "url": "https://github.com/jsarafajr/slackify-markdown/issues"
+    "url": "https://github.com/mok0230/transpile-md/issues"
   },
-  "homepage": "https://github.com/jsarafajr/slackify-markdown#readme",
+  "homepage": "https://github.com/mok0230/transpile-md#readme",
   "jest": {
     "testURL": "http://localhost/"
   },
