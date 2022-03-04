@@ -6,10 +6,15 @@ const unified = require('unified');
 const { collectDefinitions, removeDefinitions } = require('./definitions');
 const createSlackifyOptions = require('./slackify');
 
-module.exports = (markdown, isTelegram) => {
+module.exports = (markdown, options) => {
+  if (!options || !options.target) {
+    console.error('unable to transpile, options.target is required');
+    return '';
+  }
+
   const definitions = {};
 
-  const slackifyOptions = createSlackifyOptions(definitions, isTelegram);
+  const slackifyOptions = createSlackifyOptions(definitions, options);
 
   return unified()
     .use(parse)
