@@ -1,7 +1,8 @@
 const defaultHandlers = require('mdast-util-to-markdown/lib/handle');
 const phrasing = require('mdast-util-to-markdown/lib/util/container-phrasing');
-
-const { wrap, isURL, isPotentiallyEncoded } = require('./utils');
+const {
+  wrap, isURL, isPotentiallyEncoded, wrapEntity 
+} = require('./utils');
 
 // fixes slack in-word formatting (e.g. hel*l*o)
 const zeroWidthSpace = String.fromCharCode(0x200B);
@@ -16,46 +17,13 @@ const zeroWidthSpace = String.fromCharCode(0x200B);
  * @returns {import('mdast-util-to-markdown').Handlers}
  */
 const createSlackHandlers = (definitions, options) => ({
-  heading: (node, _parent, context) => {
-    // make headers to be just *strong*
-    const marker = '*';
+  heading: wrapEntity('heading', '*', false),
 
-    const exit = context.enter('heading');
-    const value = phrasing(node, context, { before: marker, after: marker });
-    exit();
+  strong: wrapEntity('strong', '*', true),
 
-    return wrap(value, marker);
-  },
+  delete: wrapEntity('delete', '~', true),
 
-  strong: (node, _parent, context) => {
-    const marker = '*';
-
-    const exit = context.enter('strong');
-    const value = phrasing(node, context, { before: marker, after: marker });
-    exit();
-
-    return wrap(value, zeroWidthSpace, marker);
-  },
-
-  delete(node, _parent, context) {
-    const marker = '~';
-
-    const exit = context.enter('delete');
-    const value = phrasing(node, context, { before: marker, after: marker });
-    exit();
-
-    return wrap(value, zeroWidthSpace, marker);
-  },
-
-  emphasis: (node, _parent, context) => {
-    const marker = '_';
-
-    const exit = context.enter('emphasis');
-    const value = phrasing(node, context, { before: marker, after: marker });
-    exit();
-
-    return wrap(value, zeroWidthSpace, marker);
-  },
+  emphasis: wrapEntity('emphasis', '_', true),
 
   listItem: (...args) => defaultHandlers
     .listItem(...args)
@@ -91,11 +59,7 @@ const createSlackHandlers = (definitions, options) => ({
 
     if (!definition || !isURL(definition.url)) return text;
 
-    if (text) {
-      return `<${definition.url}|${text}>`;
-    } else {
-      return `<${definition.url}>`;
-    }
+    return text ? `<${definition.url}|${text}>` : `<${definition.url}>`;
   },
 
   image: (node, _parent, context) => {
@@ -139,47 +103,13 @@ const createSlackHandlers = (definitions, options) => ({
 });
 
 const createDiscordHandlers = (definitions, options) => ({
-  heading: (node, _parent, context) => {
-    // make headers to be just **strong**
-    const marker = '**';
-
-    const exit = context.enter('heading');
-    const value = phrasing(node, context, { before: marker, after: marker });
-    exit();
-
-    return wrap(value, marker);
-  },
+  heading: wrapEntity('heading', '**', false),
 });
 
 const createTelegramHandlers = (definitions, options) => ({
-  heading: (node, _parent, context) => {
-    // make headers to be just *strong*
-    const marker = '*';
-
-    const exit = context.enter('heading');
-    const value = phrasing(node, context, { before: marker, after: marker });
-    exit();
-
-    return wrap(value, marker);
-  },
-  strong: (node, _parent, context) => {
-    const marker = '*';
-
-    const exit = context.enter('strong');
-    const value = phrasing(node, context, { before: marker, after: marker });
-    exit();
-
-    return wrap(value, zeroWidthSpace, marker);
-  },
-  emphasis: (node, _parent, context) => {
-    const marker = '_';
-
-    const exit = context.enter('emphasis');
-    const value = phrasing(node, context, { before: marker, after: marker });
-    exit();
-
-    return wrap(value, zeroWidthSpace, marker);
-  },
+  heading: wrapEntity('heading', '*', false),
+  strong: wrapEntity('strong', '*', true),
+  emphasis: wrapEntity('emphasis', '_', true),
 });
 
 const createHandlers = (definitions, options) => {
