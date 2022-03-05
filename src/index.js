@@ -4,7 +4,7 @@ const stringify = require('remark-stringify');
 const unified = require('unified');
 
 const { collectDefinitions, removeDefinitions } = require('./definitions');
-const createSlackifyOptions = require('./transpile');
+const createOptions = require('./transpile');
 
 module.exports = (markdown, options) => {
   if (!options || !options.target) {
@@ -14,7 +14,7 @@ module.exports = (markdown, options) => {
 
   const definitions = {};
 
-  const slackifyOptions = createSlackifyOptions(definitions, options);
+  const stringifyOptions = createOptions(definitions, options);
 
   return unified()
     .use(parse)
@@ -23,7 +23,7 @@ module.exports = (markdown, options) => {
     .use(gfm)
     .use(collectDefinitions, definitions)
     .use(removeDefinitions)
-    .use(stringify, slackifyOptions)
+    .use(stringify, stringifyOptions)
     .processSync(markdown)
     .toString();
 };
