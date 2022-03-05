@@ -9,9 +9,11 @@
 transpile-md converts [Github-flavored markdown](https://github.github.com/gfm/) to a target output such as:
 
 - HTML
-- [Slack-flavored Markdown](https://api.slack.com/reference/surfaces/formatting) (i.e. mrkdwn)
-- [Telegram-flavored Markdown](https://core.telegram.org/bots/api#markdownv2-style) (MarkdownV2)
-- [Discord-flavored Markdown](https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-)
+- Slack
+- Telegram
+- Discord
+-
+- \
 
 This package is opinionated in transpiling features with mixed support across platforms. For instance, a title (`# My Title`) is supported in HTML (`<h1>My Title<h1>`) but not in various messaging platforms and may be converted, for instance, to bold (`*My Title*`).
 
@@ -42,7 +44,7 @@ const markdown = `
 [here is an example](https://example.com)
 `;
 
-transpileMd(markdown, { target: 'html' });
+transpileMd(markdown, { target: 'slack' });
 /*
  *List of items*
 
@@ -54,4 +56,13 @@ transpileMd(markdown, { target: 'html' });
 /*
 ```
 
-Credit to [slackify-markdown](https://github.com/jsarafajr/slackify-markdown) for providing the basis for this package.
+### Targets
+
+| Target   | Description                                                                                                                                   |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| html     | Standard HTML                                                                                                                                 |
+| slack    | [Slack-flavored Markdown (mrkdwn)](https://api.slack.com/reference/surfaces/formatting)                                                       |
+| telegram | [Telegram-flavored Markdown (MarkdownV2)](https://core.telegram.org/bots/api#markdownv2-style)                                                |
+| discord  | [Discord-flavored Markdown](https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-) |
+
+_Credit to [slackify-markdown](https://github.com/jsarafajr/slackify-markdown) for providing the basis for this package._
