@@ -151,12 +151,45 @@ const createDiscordHandlers = (definitions, options) => ({
   },
 });
 
+const createTelegramHandlers = (definitions, options) => ({
+  heading: (node, _parent, context) => {
+    // make headers to be just *strong*
+    const marker = '*';
+
+    const exit = context.enter('heading');
+    const value = phrasing(node, context, { before: marker, after: marker });
+    exit();
+
+    return wrap(value, marker);
+  },
+  strong: (node, _parent, context) => {
+    const marker = '*';
+
+    const exit = context.enter('strong');
+    const value = phrasing(node, context, { before: marker, after: marker });
+    exit();
+
+    return wrap(value, zeroWidthSpace, marker);
+  },
+  emphasis: (node, _parent, context) => {
+    const marker = '_';
+
+    const exit = context.enter('emphasis');
+    const value = phrasing(node, context, { before: marker, after: marker });
+    exit();
+
+    return wrap(value, zeroWidthSpace, marker);
+  },
+});
+
 const createHandlers = (definitions, options) => {
   switch (options.target) {
     case 'slack':
       return createSlackHandlers(definitions, options);
     case 'discord':
       return createDiscordHandlers(definitions, options);
+    case 'telegram':
+      return createTelegramHandlers(definitions, options);
     default:
       console.error('unknown target!');
       return {};
