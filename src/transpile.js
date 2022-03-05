@@ -79,11 +79,7 @@ const createHandlers = (definitions, options) => ({
 
     if (!isURL(url)) return text || url;
 
-    if (text) {
-      return `<${url}|${text}>`
-    } else {
-      return `<${url}>`
-    }
+    return text ? `<${url}|${text}>` : `<${url}>`;
   },
 
   linkReference: (node, _parent, context) => {

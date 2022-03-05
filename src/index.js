@@ -4,7 +4,7 @@ const stringify = require('remark-stringify');
 const unified = require('unified');
 
 const { collectDefinitions, removeDefinitions } = require('./definitions');
-const createSlackifyOptions = require('./slackify');
+const createSlackifyOptions = require('./transpile');
 
 module.exports = (markdown, options) => {
   if (!options || !options.target) {
