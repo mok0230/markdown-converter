@@ -71,34 +71,45 @@ test('Ordered list', () => {
   expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
 });
 
-test('Link with title', () => {
-  const mrkdown = '[](http://atlassian.com "Atlassian")';
-  const slack = '<http://atlassian.com|Atlassian>\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', '<http://atlassian.com|Atlassian>\n'],
+  ['discord', '[](http://atlassian.com "Atlassian")\n'],
+  ['safe-gfm', 'Atlassian (http://atlassian.com)\n'],
+])('transpiles link with title for target: %s', (target, expected) => {
+  expect(transpileMd('[](http://atlassian.com "Atlassian")', { target })).toBe(expected);
 });
 
-test('Link with alt', () => {
-  const mrkdown = '[test](http://atlassian.com)';
-  const slack = '<http://atlassian.com|test>\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', '<http://atlassian.com|test>\n'],
+  ['discord', '[test](http://atlassian.com)\n'],
+  ['safe-gfm', 'test (http://atlassian.com)\n'],
+])('transpiles link with alt for target: %s', (target, expected) => {
+  expect(transpileMd('[test](http://atlassian.com)', { target })).toBe(expected);
 });
 
-test('Link with alt and title', () => {
-  const mrkdown = '[test](http://atlassian.com "Atlassian")';
-  const slack = '<http://atlassian.com|test>\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', '<http://atlassian.com|test>\n'],
+  ['discord', '[test](http://atlassian.com "Atlassian")\n'],
+  ['safe-gfm', 'test (http://atlassian.com)\n'],
+])('transpiles link with alt and title for target: %s', (target, expected) => {
+  expect(transpileMd('[test](http://atlassian.com "Atlassian")', { target })).toBe(expected);
 });
 
-test('Link with angle bracket syntax', () => {
-  const mrkdown = '<http://atlassian.com>';
-  const slack = '<http://atlassian.com|http://atlassian.com>\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', '<http://atlassian.com|http://atlassian.com>\n'],
+  ['discord', '<http://atlassian.com>\n'],
+  ['safe-gfm', 'http://atlassian.com (http://atlassian.com)\n'],
+])('transpiles link with angle bracket syntax for target: %s', (target, expected) => {
+  expect(transpileMd('<http://atlassian.com>', { target })).toBe(expected);
 });
 
-test('Link with no alt nor title', () => {
-  const mrkdown = '[](http://atlassian.com)';
-  const slack = '<http://atlassian.com>\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+// TODO: review if this could cause a link wth anchor text to be rendered
+it.each([
+  ['slack', '<http://atlassian.com>\n'],
+  ['discord', '[](http://atlassian.com)\n'],
+  ['safe-gfm', '(http://atlassian.com)\n'],
+])('transpiles link with no alt nor title for target: %s', (target, expected) => {
+  expect(transpileMd('[](http://atlassian.com)', { target })).toBe(expected);
 });
 
 test('Link with invalid URL', () => {

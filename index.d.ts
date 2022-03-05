@@ -1,5 +1,5 @@
 interface Options {
-  target: 'html' | 'slack' | 'telegram' | ' discord'
+  target: 'html' | 'slack' | 'telegram' | ' discord' | 'safe-gfm'
 }
 
 declare module "transpile-md" {
