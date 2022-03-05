@@ -15,7 +15,7 @@ const zeroWidthSpace = String.fromCharCode(0x200B);
  *
  * @returns {import('mdast-util-to-markdown').Handlers}
  */
-const createHandlers = (definitions, options) => ({
+const createSlackHandlers = (definitions, options) => ({
   heading: (node, _parent, context) => {
     // make headers to be just *strong*
     const marker = '*';
@@ -137,6 +137,31 @@ const createHandlers = (definitions, options) => ({
     return text;
   },
 });
+
+const createDiscordHandlers = (definitions, options) => ({
+  heading: (node, _parent, context) => {
+    // make headers to be just **strong**
+    const marker = '**';
+
+    const exit = context.enter('heading');
+    const value = phrasing(node, context, { before: marker, after: marker });
+    exit();
+
+    return wrap(value, marker);
+  },
+});
+
+const createHandlers = (definitions, options) => {
+  switch (options.target) {
+    case 'slack':
+      return createSlackHandlers(definitions, options);
+    case 'discord':
+      return createDiscordHandlers(definitions, options);
+    default:
+      console.error('unknown target!');
+      return {};
+  }
+};
 
 /**
  * Creates options to be passed into a `remark-stringify` processor that tailor

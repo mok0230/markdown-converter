@@ -4,6 +4,7 @@ const zws = String.fromCharCode(0x200B); // zero-width-space
 
 it.each([
   ['slack', 'hello world\n'],
+  ['discord', 'hello world\n'],
 ])('transpiles simple text for target: %s', (target, expected) => {
   expect(transpileMd('hello world', { target })).toBe(expected);
 });
@@ -18,16 +19,18 @@ test('Definitions', () => {
   expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
 });
 
-test('Headings', () => {
-  const mrkdown = '# heading 1\n## heading 2\n### heading 3';
-  const slack = '*heading 1*\n\n*heading 2*\n\n*heading 3*\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', '*heading 1*\n\n*heading 2*\n\n*heading 3*\n'],
+  ['discord', '**heading 1**\n\n**heading 2**\n\n**heading 3**\n'],
+])('transpiles headings for target: %s', (target, expected) => {
+  expect(transpileMd('# heading 1\n## heading 2\n### heading 3', { target })).toBe(expected);
 });
 
-test('Bold', () => {
-  const mrkdown = '**bold text**';
-  const slack = `${zws}*bold text*${zws}\n`;
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', `${zws}*bold text*${zws}\n`],
+  ['discord', '**bold text**\n'],
+])('transpiles bold text for target: %s', (target, expected) => {
+  expect(transpileMd('**bold text**', { target })).toBe(expected);
 });
 
 test('Bold character in word', () => {
