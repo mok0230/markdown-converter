@@ -22,6 +22,7 @@ test('Definitions', () => {
 it.each([
   ['slack', '*heading 1*\n\n*heading 2*\n\n*heading 3*\n'],
   ['discord', '**heading 1**\n\n**heading 2**\n\n**heading 3**\n'],
+  ['telegram', '*heading 1*\n\n*heading 2*\n\n*heading 3*\n'],
 ])('transpiles headings for target: %s', (target, expected) => {
   expect(transpileMd('# heading 1\n## heading 2\n### heading 3', { target })).toBe(expected);
 });
@@ -29,6 +30,7 @@ it.each([
 it.each([
   ['slack', `${zws}*bold text*${zws}\n`],
   ['discord', '**bold text**\n'],
+  ['telegram', `${zws}*bold text*${zws}\n`],
 ])('transpiles bold text for target: %s', (target, expected) => {
   expect(transpileMd('**bold text**', { target })).toBe(expected);
 });
@@ -37,10 +39,12 @@ test('Bold character in word', () => {
   expect(transpileMd('he**l**lo', { target: 'slack' })).toBe(`he${zws}*l*${zws}lo\n`);
 });
 
-test('Italic', () => {
-  const mrkdown = '*italic text*';
-  const slack = `${zws}_italic text_${zws}\n`;
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', `${zws}_italic text_${zws}\n`],
+  ['discord', '*italic text*\n'],
+  ['telegram', `${zws}_italic text_${zws}\n`],
+])('transpiles italic text for target: %s', (target, expected) => {
+  expect(transpileMd('*italic text*', { target })).toBe(expected);
 });
 
 test('Bold+Italic', () => {
