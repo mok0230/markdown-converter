@@ -64,5 +64,6 @@ transpileMd(markdown, { target: 'slack' });
 | slack    | [Slack-flavored Markdown (mrkdwn)](https://api.slack.com/reference/surfaces/formatting)                                                       |
 | telegram | [Telegram-flavored Markdown (MarkdownV2)](https://core.telegram.org/bots/api#markdownv2-style)                                                |
 | discord  | [Discord-flavored Markdown](https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-) |
+| safe-gfm | Github-flavored markdown stripped of links with anchor text                                                                                   |
 
 _Credit to [slackify-markdown](https://github.com/jsarafajr/slackify-markdown) for providing the basis for this package._

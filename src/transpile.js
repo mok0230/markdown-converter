@@ -112,6 +112,56 @@ const createTelegramHandlers = (definitions, options) => ({
   emphasis: wrapEntity('emphasis', '_', true),
 });
 
+const createSafeGfmHandlers = (definitions, options) => ({
+  link: (node, _parent, context) => {
+    const exit = context.enter('link');
+    const text = phrasing(node, context, { before: '|', after: '>' })
+      || node.title;
+    const url = isPotentiallyEncoded(node.url) ? node.url : encodeURI(node.url);
+    exit();
+
+    if (!isURL(url)) return text || url;
+
+    return text ? `${text} (${url})` : `(${url})`;
+  },
+
+  linkReference: (node, _parent, context) => {
+    const exit = context.enter('linkReference');
+    const definition = definitions[node.identifier];
+    const text = phrasing(node, context, { before: '|', after: '>' })
+      || (definition ? definition.title : null);
+    exit();
+
+    if (!definition || !isURL(definition.url)) return text;
+
+    return text ? `${text} (${definition.url})` : `(${definition.url})`;
+  },
+
+  image: (node, _parent, context) => {
+    const exit = context.enter('image');
+    const text = node.alt || node.title;
+    const url = encodeURI(node.url);
+    exit();
+
+    if (!isURL(url)) return text || url;
+
+    return text ? `${text} (${url})` : `(${url})`;
+  },
+
+  imageReference: (node, _parent, context) => {
+    const exit = context.enter('imageReference');
+    const definition = definitions[node.identifier];
+    const text = node.alt
+      || (definition ? definition.title : null);
+    exit();
+
+    if (!definition || !isURL(definition.url)) return text;
+
+    return text ? `${text} (${definition.url})` : `(${definition.url})`;
+  },
+});
+
+
 const createHandlers = (definitions, options) => {
   switch (options.target) {
     case 'slack':
@@ -120,6 +170,8 @@ const createHandlers = (definitions, options) => {
       return createDiscordHandlers(definitions, options);
     case 'telegram':
       return createTelegramHandlers(definitions, options);
+    case 'safe-gfm':
+      return createSafeGfmHandlers(definitions, options);
     default:
       console.error('unknown target!');
       return {};
