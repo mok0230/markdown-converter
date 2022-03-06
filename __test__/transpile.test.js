@@ -103,7 +103,6 @@ it.each([
   expect(transpileMd('<http://atlassian.com>', { target })).toBe(expected);
 });
 
-// TODO: review if this could cause a link wth anchor text to be rendered
 it.each([
   ['slack', '<http://atlassian.com>\n'],
   ['discord', '[](http://atlassian.com)\n'],
@@ -112,52 +111,68 @@ it.each([
   expect(transpileMd('[](http://atlassian.com)', { target })).toBe(expected);
 });
 
-test('Link with invalid URL', () => {
-  const mrkdown = '[test](/atlassian)';
-  const slack = 'test\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+// TODO: review if this could cause a link wth anchor text to be rendered and test above
+xit.each([
+  ['safe-gfm', 'click me (http://atlassian.com)\n'],
+])('transpiles a malicious link with no alt nor title for target: %s', (target, expected) => {
+  expect(transpileMd('[click me][](http://maliciouslink.com)', { target })).toBe(expected);
 });
 
-test('Link in reference style with alt', () => {
-  const mrkdown = '[Atlassian]\n\n[atlassian]: http://atlassian.com';
-  const slack = '<http://atlassian.com|Atlassian>\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', 'test\n'],
+  ['safe-gfm', 'test\n'],
+])('transpiles invalid link for target: %s', (target, expected) => {
+  expect(transpileMd('[test](/atlassian)', { target })).toBe(expected);
 });
 
-test('Link in reference style with custom label', () => {
-  const mrkdown = '[][test]\n\n[test]: http://atlassian.com';
-  const slack = '<http://atlassian.com>\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', '<http://atlassian.com|Atlassian>\n'],
+  ['safe-gfm', 'Atlassian (http://atlassian.com)\n'],
+])('transpiles link in reference style with alt for target: %s', (target, expected) => {
+  expect(transpileMd('[Atlassian]\n\n[atlassian]: http://atlassian.com', { target })).toBe(expected);
 });
 
-test('Link in reference style with alt and custom label', () => {
-  const mrkdown = '[Atlassian][test]\n\n[test]: http://atlassian.com';
-  const slack = '<http://atlassian.com|Atlassian>\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+// TODO: review if this could cause a link wth anchor text to be rendered
+it.each([
+  ['slack', '<http://atlassian.com>\n'],
+  ['safe-gfm', '(http://atlassian.com)\n'],
+])('transpiles link in reference style with custom label for target: %s', (target, expected) => {
+  expect(transpileMd('[][test]\n\n[test]: http://atlassian.com', { target })).toBe(expected);
 });
 
-test('Link in reference style with title', () => {
-  const mrkdown = '[][test]\n\n[test]: http://atlassian.com "Title"';
-  const slack = '<http://atlassian.com|Title>\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', '<http://atlassian.com|Atlassian>\n'],
+  ['safe-gfm', 'Atlassian (http://atlassian.com)\n'],
+])('transpiles link in reference style with alt and custom label for target: %s', (target, expected) => {
+  expect(transpileMd('[Atlassian][test]\n\n[test]: http://atlassian.com', { target })).toBe(expected);
 });
 
-test('Link in reference style with alt and title', () => {
-  const mrkdown = '[Atlassian]\n\n[atlassian]: http://atlassian.com "Title"';
-  const slack = '<http://atlassian.com|Atlassian>\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', '<http://atlassian.com|Title>\n'],
+  ['safe-gfm', 'Title (http://atlassian.com)\n'],
+])('transpiles link in reference style with title for target: %s', (target, expected) => {
+  expect(transpileMd('[][test]\n\n[test]: http://atlassian.com "Title"', { target })).toBe(expected);
 });
 
-test('Link is already encoded', () => {
-  const mrkdown = '[Atlassian](https://www.atlassian.com?redirect=https%3A%2F%2Fwww.asana.com): /atlassian';
-  const slack = '<https://www.atlassian.com?redirect=https%3A%2F%2Fwww.asana.com|Atlassian>: /atlassian\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', '<http://atlassian.com|Atlassian>\n'],
+  ['safe-gfm', 'Atlassian (http://atlassian.com)\n'],
+])('transpiles link in reference style with alt and title for target: %s', (target, expected) => {
+  expect(transpileMd('[Atlassian]\n\n[atlassian]: http://atlassian.com "Title"', { target })).toBe(expected);
 });
 
-test('Link in reference style with invalid definition', () => {
-  const mrkdown = '[Atlassian][test]\n\n[test]: /atlassian';
-  const slack = 'Atlassian\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', '<https://www.atlassian.com?redirect=https%3A%2F%2Fwww.asana.com|Atlassian>: /atlassian\n'],
+  ['safe-gfm', 'Atlassian (https://www.atlassian.com?redirect=https%3A%2F%2Fwww.asana.com): /atlassian\n'],
+])('transpiles link that is already encoded for target: %s', (target, expected) => {
+  expect(transpileMd('[Atlassian](https://www.atlassian.com?redirect=https%3A%2F%2Fwww.asana.com): /atlassian', { target })).toBe(expected);
+});
+
+it.each([
+  ['slack', 'Atlassian\n'],
+  ['safe-gfm', 'Atlassian\n'],
+])('transpiles link in reference style with invalid definition for target: %s', (target, expected) => {
+  expect(transpileMd('[Atlassian][test]\n\n[test]: /atlassian', { target })).toBe(expected);
 });
 
 test('Image with title', () => {
