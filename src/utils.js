@@ -16,7 +16,7 @@ const isURL = string => {
 
 const zeroWidthSpace = String.fromCharCode(0x200B);
 
-const isPotentiallyEncoded = uri => uri !== decodeURIComponent(uri || '');
+const isEncoded = uri => uri !== decodeURIComponent(uri || '');
 
 const wrapEntity = (entityType, marker, injectZeroWidthSpace) => (node, _parent, context) => {
   // make headers to be just *strong*
@@ -28,4 +28,4 @@ const wrapEntity = (entityType, marker, injectZeroWidthSpace) => (node, _parent,
   return injectZeroWidthSpace ? wrap(value, zeroWidthSpace, marker) : wrap(value, marker);
 };
 
-module.exports = { wrap, isURL, isPotentiallyEncoded, wrapEntity };
+module.exports = { wrap, isURL, isEncoded, wrapEntity };
