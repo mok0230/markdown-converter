@@ -30,7 +30,7 @@ it.each([
 it.each([
   ['slack', `${zws}*bold text*${zws}\n`],
   ['discord', '**bold text**\n'],
-  ['telegram', `${zws}*bold text*${zws}\n`],
+  ['telegram', '*bold text*\n'],
 ])('transpiles bold text for target: %s', (target, expected) => {
   expect(transpileMd('**bold text**', { target })).toBe(expected);
 });
@@ -42,7 +42,7 @@ test('Bold character in word', () => {
 it.each([
   ['slack', `${zws}_italic text_${zws}\n`],
   ['discord', '*italic text*\n'],
-  ['telegram', `${zws}_italic text_${zws}\n`],
+  ['telegram', '_italic text_\n'],
 ])('transpiles italic text for target: %s', (target, expected) => {
   expect(transpileMd('*italic text*', { target })).toBe(expected);
 });

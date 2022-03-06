@@ -110,8 +110,8 @@ const createDiscordHandlers = (definitions, options) => ({
 
 const createTelegramHandlers = (definitions, options) => ({
   heading: wrapEntity('heading', '*', false),
-  strong: wrapEntity('strong', '*', true),
-  emphasis: wrapEntity('emphasis', '_', true),
+  strong: wrapEntity('strong', '*', false),
+  emphasis: wrapEntity('emphasis', '_', false),
 });
 
 const createSafeGfmHandlers = (definitions, options) => ({
