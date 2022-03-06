@@ -28,4 +28,9 @@ const wrapEntity = (entityType, marker, injectZeroWidthSpace) => (node, _parent,
   return injectZeroWidthSpace ? wrap(value, zeroWidthSpace, marker) : wrap(value, marker);
 };
 
-module.exports = { wrap, isURL, isEncoded, wrapEntity };
+module.exports = {
+  wrap,
+  isURL,
+  isEncoded,
+  wrapEntity,
+};
