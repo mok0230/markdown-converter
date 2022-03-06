@@ -12,8 +12,6 @@ transpile-md converts [Github-flavored markdown](https://github.github.com/gfm/)
 - Slack
 - Telegram
 - Discord
--
-- \
 
 This package is opinionated in transpiling features with mixed support across platforms. For instance, a title (`# My Title`) is supported in HTML (`<h1>My Title<h1>`) but not in various messaging platforms and may be converted, for instance, to bold (`*My Title*`).
 
