@@ -18,8 +18,6 @@ module.exports = (markdown, options) => {
 
   return unified()
     .use(parse)
-    // Delete node is defined in GFM
-    // https://github.com/syntax-tree/mdast/blob/main/readme.md#gfm
     .use(gfm)
     .use(collectDefinitions, definitions)
     .use(removeDefinitions)

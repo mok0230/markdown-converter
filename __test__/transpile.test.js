@@ -59,10 +59,11 @@ test('Strike', () => {
   expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
 });
 
-test('Unordered list', () => {
-  const mrkdown = '* list\n* list\n* list';
-  const slack = '•   list\n•   list\n•   list\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', '* list\n* list\n* list', '•   list\n•   list\n•   list\n'],
+  ['telegram', '* list\n* list\n* list', '•   list\n•   list\n•   list\n'],
+])('transpiles unordered list for target: %s', (target, input, expected) => {
+  expect(transpileMd(input, { target })).toBe(expected);
 });
 
 test('Ordered list', () => {

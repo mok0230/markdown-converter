@@ -1,7 +1,7 @@
 const defaultHandlers = require('mdast-util-to-markdown/lib/handle');
 const phrasing = require('mdast-util-to-markdown/lib/util/container-phrasing');
 const {
-  wrap, isURL, isEncoded, wrapEntity,
+  wrap, isURL, isEncoded, wrapEntity, replaceUlMarker,
 } = require('./utils');
 
 /**
@@ -22,9 +22,7 @@ const createSlackHandlers = (definitions, options) => ({
 
   emphasis: wrapEntity('emphasis', '_', true),
 
-  listItem: (...args) => defaultHandlers
-    .listItem(...args)
-    .replace(/^\*/, '•'),
+  listItem: replaceUlMarker,
 
   code(node, _parent, context) {
     const exit = context.enter('code');
@@ -107,6 +105,8 @@ const createTelegramHandlers = (definitions, options) => ({
   heading: wrapEntity('heading', '*', false),
   strong: wrapEntity('strong', '*', false),
   emphasis: wrapEntity('emphasis', '_', false),
+  // telegram API can fail in trying to parse content with asterisks
+  listItem: replaceUlMarker,
 });
 
 const createSafeGfmHandlers = (definitions, options) => ({
