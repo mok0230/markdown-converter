@@ -1,54 +1,39 @@
-const phrasing = require('mdast-util-to-markdown/lib/util/container-phrasing');
 const {
-  isURL, isEncoded
+  isURL, getLinkParams, getImageParams
 } = require('../utils');
 
 const createSafeGfmHandlers = (definitions, options) => ({
   link: (node, _parent, context) => {
-    const exit = context.enter('link');
-    const text = phrasing(node, context, { before: '|', after: '>' })
-      || node.title;
-    const url = isEncoded(node.url) ? node.url : encodeURI(node.url);
-    exit();
+    const { text, url } = getLinkParams(node, context, 'link');
 
-    if (!isURL(url)) return text || url;
-
-    return text ? `${text} (${url})` : `(${url})`;
+    return text ? `[${text}]\\(${url})` : `\\(${url})`;
   },
 
   linkReference: (node, _parent, context) => {
-    const exit = context.enter('linkReference');
+    let { text } = getLinkParams(node, context, 'linkReference');
+
     const definition = definitions[node.identifier];
-    const text = phrasing(node, context, { before: '|', after: '>' })
-      || (definition ? definition.title : null);
-    exit();
 
-    if (!definition || !isURL(definition.url)) return text;
+    if (!text) {
+      text = definition ? definition.title : null;
+      if (!definition || !isURL(definition.url)) return `\\${text}`;
+    }
 
-    return text ? `${text} (${definition.url})` : `(${definition.url})`;
+    return text ? `[${text}]\\(${definition.url})` : `\\(${definition.url})`;
   },
 
   image: (node, _parent, context) => {
-    const exit = context.enter('image');
-    const text = node.alt || node.title;
-    const url = encodeURI(node.url);
-    exit();
+    const { text, url } = getImageParams(node, context, 'image', node.title);
 
-    if (!isURL(url)) return text || url;
-
-    return text ? `${text} (${url})` : `(${url})`;
+    return text ? `[${text}]\\(${url})` : `\\(${url})`;
   },
 
   imageReference: (node, _parent, context) => {
-    const exit = context.enter('imageReference');
     const definition = definitions[node.identifier];
-    const text = node.alt
-      || (definition ? definition.title : null);
-    exit();
 
-    if (!definition || !isURL(definition.url)) return text;
+    const { text } = getImageParams(node, context, 'imageReference', definition ? definition.title : '');
 
-    return text ? `${text} (${definition.url})` : `(${definition.url})`;
+    return text ? `[${text}]\\(${definition.url})` : `\\(${definition.url})`;
   },
 });
 

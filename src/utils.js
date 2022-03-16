@@ -29,10 +29,37 @@ const wrapEntity = (entityType, marker, injectZeroWidthSpace) => (node, _parent,
 
 const replaceUlMarker = (...args) => defaultHandlers.listItem(...args).replace(/^\*/, '•');
 
+const getLinkParams = (node, context, entityType, before, after) => {
+  const exit = context.enter(entityType);
+  const text = phrasing(node, context, { before, after })
+    || node.title;
+
+  let url;
+
+  if (node.url) {
+    url = isEncoded(node.url) ? node.url : encodeURI(node.url);
+  }
+
+  exit();
+
+  return { text, url };
+};
+
+const getImageParams = (node, context, entityType, fallbackText) => {
+  const exit = context.enter(entityType);
+  const text = node.alt || fallbackText;
+  const url = encodeURI(node.url);
+  exit();
+
+  return { text, url }
+}
+
 module.exports = {
   wrap,
   isURL,
   isEncoded,
   replaceUlMarker,
   wrapEntity,
+  getLinkParams,
+  getImageParams
 };
