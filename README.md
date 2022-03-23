@@ -54,18 +54,24 @@ transpileMd(markdown, { target: 'slack' });
 /*
 ```
 
-### Targets
+## API
 
-| Target   | Description                                                                                                                                   |
-| -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| html     | Standard HTML                                                                                                                                 |
-| slack    | [Slack-flavored Markdown (mrkdwn)](https://api.slack.com/reference/surfaces/formatting)                                                       |
-| telegram | [Telegram-flavored Markdown (MarkdownV2)](https://core.telegram.org/bots/api#markdownv2-style)                                                |
-| discord  | [Discord-flavored Markdown](https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-) |
-| safe-gfm | Github-flavored markdown stripped of links with anchor text                                                                                   |
+### `options`
 
-### HTML Highlighting
+#### `options.target`
 
-HTML can be highlighted by assigning valid [rehype-highlight](https://github.com/rehypejs/rehype-highlight#api) options to the `options.highlight` parameter. This is only valid with `target: html`, it will be ignored for other targets.
+Required - valid values include:
+
+* html (standard HTML)
+* slack ([Slack-flavored Markdown (mrkdwn)](https://api.slack.com/reference/surfaces/formatting))
+* telegram ([Telegram-flavored Markdown (MarkdownV2)](https://core.telegram.org/bots/api#markdownv2-style))
+* discord ([Discord-flavored Markdown](https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-))
+* safe-gfm (input markdown stripped of links with anchor text)
+
+#### `options.highlight`
+
+HTML can be highlighted by assigning valid [rehype-highlight](https://github.com/rehypejs/rehype-highlight#api) options to the `options.highlight` parameter. 
+
+This is only valid with `target: html`. It will be ignored for other targets.
 
 _Credit to [slackify-markdown](https://github.com/jsarafajr/slackify-markdown) for providing the basis for this package._
