@@ -64,4 +64,8 @@ transpileMd(markdown, { target: 'slack' });
 | discord  | [Discord-flavored Markdown](https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-) |
 | safe-gfm | Github-flavored markdown stripped of links with anchor text                                                                                   |
 
+### HTML Highlighting
+
+HTML can be highlighted by assigning valid [rehype-highlight](https://github.com/rehypejs/rehype-highlight#api) options to the `options.highlight` parameter. This is only valid with `target: html`, it will be ignored for other targets.
+
 _Credit to [slackify-markdown](https://github.com/jsarafajr/slackify-markdown) for providing the basis for this package._
