@@ -1,0 +1,105 @@
+const transpileMd = require('..');
+
+it.each([
+  ['slack', '<http://atlassian.com|Atlassian>\n'],
+  ['discord', '[](http://atlassian.com "Atlassian")\n'],
+  ['safe-gfm', '[Atlassian]\\(http://atlassian.com)\n'],
+])('transpiles link with title for target: %s', (target, expected) => {
+  expect(transpileMd('[](http://atlassian.com "Atlassian")', { target })).toBe(expected);
+});
+
+it.each([
+  ['slack', '<http://atlassian.com|test>\n'],
+  ['discord', '[test](http://atlassian.com)\n'],
+  ['safe-gfm', '[test]\\(http://atlassian.com)\n'],
+])('transpiles link with alt for target: %s', (target, expected) => {
+  expect(transpileMd('[test](http://atlassian.com)', { target })).toBe(expected);
+});
+
+it.each([
+  ['slack', '<http://atlassian.com|test>\n'],
+  ['discord', '[test](http://atlassian.com "Atlassian")\n'],
+  ['safe-gfm', '[test]\\(http://atlassian.com)\n'],
+])('transpiles link with alt and title for target: %s', (target, expected) => {
+  expect(transpileMd('[test](http://atlassian.com "Atlassian")', { target })).toBe(expected);
+});
+
+it.each([
+  ['slack', '<http://atlassian.com|http://atlassian.com>\n'],
+  ['discord', '<http://atlassian.com>\n'],
+  ['safe-gfm', '[http://atlassian.com]\\(http://atlassian.com)\n'],
+])('transpiles link with angle bracket syntax for target: %s', (target, expected) => {
+  expect(transpileMd('<http://atlassian.com>', { target })).toBe(expected);
+});
+
+it.each([
+  ['slack', '<http://atlassian.com>\n'],
+  ['discord', '[](http://atlassian.com)\n'],
+  ['safe-gfm', '\\(http://atlassian.com)\n'],
+])('transpiles link with no alt nor title for target: %s', (target, expected) => {
+  expect(transpileMd('[](http://atlassian.com)', { target })).toBe(expected);
+});
+
+// TODO: review if this could cause a link wth anchor text to be rendered and test above
+xit.each([
+  ['safe-gfm', 'click me (http://atlassian.com)\n'],
+])('transpiles a malicious link with no alt nor title for target: %s', (target, expected) => {
+  expect(transpileMd('[click me][](http://maliciouslink.com)', { target })).toBe(expected);
+});
+
+it.each([
+  ['slack', 'test\n'],
+  ['safe-gfm', '[test]\\(/atlassian)\n'],
+])('transpiles invalid link for target: %s', (target, expected) => {
+  expect(transpileMd('[test](/atlassian)', { target })).toBe(expected);
+});
+
+it.each([
+  ['slack', '<http://atlassian.com|Atlassian>\n'],
+  ['safe-gfm', '[Atlassian]\\(http://atlassian.com)\n'],
+])('transpiles link in reference style with alt for target: %s', (target, expected) => {
+  expect(transpileMd('[Atlassian]\n\n[atlassian]: http://atlassian.com', { target })).toBe(expected);
+});
+
+// TODO: review if this could cause a link wth anchor text to be rendered
+it.each([
+  ['slack', '<http://atlassian.com>\n'],
+  ['safe-gfm', '\\(http://atlassian.com)\n'],
+])('transpiles link in reference style with custom label for target: %s', (target, expected) => {
+  expect(transpileMd('[][test]\n\n[test]: http://atlassian.com', { target })).toBe(expected);
+});
+
+it.each([
+  ['slack', '<http://atlassian.com|Atlassian>\n'],
+  ['safe-gfm', '[Atlassian]\\(http://atlassian.com)\n'],
+])('transpiles link in reference style with alt and custom label for target: %s', (target, expected) => {
+  expect(transpileMd('[Atlassian][test]\n\n[test]: http://atlassian.com', { target })).toBe(expected);
+});
+
+it.each([
+  ['slack', '<http://atlassian.com|Title>\n'],
+  ['safe-gfm', '[Title]\\(http://atlassian.com)\n'],
+])('transpiles link in reference style with title for target: %s', (target, expected) => {
+  expect(transpileMd('[][test]\n\n[test]: http://atlassian.com "Title"', { target })).toBe(expected);
+});
+
+it.each([
+  ['slack', '<http://atlassian.com|Atlassian>\n'],
+  ['safe-gfm', '[Atlassian]\\(http://atlassian.com)\n'],
+])('transpiles link in reference style with alt and title for target: %s', (target, expected) => {
+  expect(transpileMd('[Atlassian]\n\n[atlassian]: http://atlassian.com "Title"', { target })).toBe(expected);
+});
+
+it.each([
+  ['slack', '<https://www.atlassian.com?redirect=https%3A%2F%2Fwww.asana.com|Atlassian>: /atlassian\n'],
+  ['safe-gfm', '[Atlassian]\\(https://www.atlassian.com?redirect=https%3A%2F%2Fwww.asana.com): /atlassian\n'],
+])('transpiles link that is already encoded for target: %s', (target, expected) => {
+  expect(transpileMd('[Atlassian](https://www.atlassian.com?redirect=https%3A%2F%2Fwww.asana.com): /atlassian', { target })).toBe(expected);
+});
+
+it.each([
+  ['slack', 'Atlassian\n'],
+  ['safe-gfm', '[Atlassian]\\(/atlassian)\n'],
+])('transpiles link in reference style with invalid definition for target: %s', (target, expected) => {
+  expect(transpileMd('[Atlassian][test]\n\n[test]: /atlassian', { target })).toBe(expected);
+});
