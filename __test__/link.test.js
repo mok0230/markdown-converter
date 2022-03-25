@@ -4,6 +4,7 @@ it.each([
   ['slack', '<http://atlassian.com|Atlassian>\n'],
   ['discord', '[](http://atlassian.com "Atlassian")\n'],
   ['safe-gfm', '[Atlassian]\\(http://atlassian.com)\n'],
+  ['html', '<p><a href="http://atlassian.com" title=\"Atlassian\"></a></p>'],
 ])('transpiles link with title for target: %s', (target, expected) => {
   expect(transpileMd('[](http://atlassian.com "Atlassian")', { target })).toBe(expected);
 });
@@ -12,6 +13,7 @@ it.each([
   ['slack', '<http://atlassian.com|test>\n'],
   ['discord', '[test](http://atlassian.com)\n'],
   ['safe-gfm', '[test]\\(http://atlassian.com)\n'],
+  ['html', '<p><a href="http://atlassian.com">test</a></p>'],
 ])('transpiles link with alt for target: %s', (target, expected) => {
   expect(transpileMd('[test](http://atlassian.com)', { target })).toBe(expected);
 });
@@ -20,6 +22,7 @@ it.each([
   ['slack', '<http://atlassian.com|test>\n'],
   ['discord', '[test](http://atlassian.com "Atlassian")\n'],
   ['safe-gfm', '[test]\\(http://atlassian.com)\n'],
+  ['html', '<p><a href="http://atlassian.com" title=\"Atlassian\">test</a></p>'],
 ])('transpiles link with alt and title for target: %s', (target, expected) => {
   expect(transpileMd('[test](http://atlassian.com "Atlassian")', { target })).toBe(expected);
 });
@@ -28,6 +31,7 @@ it.each([
   ['slack', '<http://atlassian.com|http://atlassian.com>\n'],
   ['discord', '<http://atlassian.com>\n'],
   ['safe-gfm', '[http://atlassian.com]\\(http://atlassian.com)\n'],
+  ['html', '<p><a href="http://atlassian.com">http://atlassian.com</a></p>'],
 ])('transpiles link with angle bracket syntax for target: %s', (target, expected) => {
   expect(transpileMd('<http://atlassian.com>', { target })).toBe(expected);
 });
@@ -36,6 +40,7 @@ it.each([
   ['slack', '<http://atlassian.com>\n'],
   ['discord', '[](http://atlassian.com)\n'],
   ['safe-gfm', '\\(http://atlassian.com)\n'],
+  ['html', '<p><a href="http://atlassian.com"></a></p>'],
 ])('transpiles link with no alt nor title for target: %s', (target, expected) => {
   expect(transpileMd('[](http://atlassian.com)', { target })).toBe(expected);
 });
@@ -50,6 +55,7 @@ xit.each([
 it.each([
   ['slack', 'test\n'],
   ['safe-gfm', '[test]\\(/atlassian)\n'],
+  ['html', '<p><a href=\"/atlassian\">test</a></p>'],
 ])('transpiles invalid link for target: %s', (target, expected) => {
   expect(transpileMd('[test](/atlassian)', { target })).toBe(expected);
 });
