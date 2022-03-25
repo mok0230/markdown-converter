@@ -5,6 +5,7 @@ const zws = String.fromCharCode(0x200B); // zero-width-space
 it.each([
   ['slack', 'hello world\n'],
   ['discord', 'hello world\n'],
+  ['html', '<p>hello world</p>'],
 ])('transpiles simple text for target: %s', (target, expected) => {
   expect(transpileMd('hello world', { target })).toBe(expected);
 });
@@ -23,6 +24,7 @@ it.each([
   ['slack', '*heading 1*\n\n*heading 2*\n\n*heading 3*\n'],
   ['discord', '**heading 1**\n\n**heading 2**\n\n**heading 3**\n'],
   ['telegram', '*heading 1*\n\n*heading 2*\n\n*heading 3*\n'],
+  ['html', '<h1>heading 1</h1>\n<h2>heading 2</h2>\n<h3>heading 3</h3>'],
 ])('transpiles headings for target: %s', (target, expected) => {
   expect(transpileMd('# heading 1\n## heading 2\n### heading 3', { target })).toBe(expected);
 });
@@ -31,6 +33,7 @@ it.each([
   ['slack', `${zws}*bold text*${zws}\n`],
   ['discord', '**bold text**\n'],
   ['telegram', '*bold text*\n'],
+  ['html', '<p><strong>bold text</strong></p>'],
 ])('transpiles bold text for target: %s', (target, expected) => {
   expect(transpileMd('**bold text**', { target })).toBe(expected);
 });
@@ -43,14 +46,16 @@ it.each([
   ['slack', `${zws}_italic text_${zws}\n`],
   ['discord', '*italic text*\n'],
   ['telegram', '_italic text_\n'],
+  ['html', '<p><em>italic text</em></p>'],
 ])('transpiles italic text for target: %s', (target, expected) => {
   expect(transpileMd('*italic text*', { target })).toBe(expected);
 });
 
-test('Bold+Italic', () => {
-  const mrkdown = '***bold+italic***';
-  const slack = `${zws}_${zws}*bold+italic*${zws}_${zws}\n`;
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', `${zws}_${zws}*bold+italic*${zws}_${zws}\n`],
+  ['html', '<p><em><strong>bold+italic</strong></em></p>'],
+])('transpiles bold+italic text for target: %s', (target, expected) => {
+  expect(transpileMd('***bold+italic***', { target })).toBe(expected);
 });
 
 test('Strike', () => {

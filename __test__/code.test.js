@@ -1,15 +1,17 @@
 const transpileMd = require('..');
 
-test('Inline code', () => {
-  const mrkdown = 'hello `world`';
-  const slack = 'hello `world`\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', 'hello `world`\n'],
+  ['html', '<p>hello <code>world</code></p>'],
+])('transpiles inline code for target: %s', (target, expected) => {
+  expect(transpileMd('hello `world`', { target })).toBe(expected);
 });
 
-test('Code block', () => {
-  const mrkdown = '```\ncode block\n```';
-  const slack = '```\ncode block\n```\n';
-  expect(transpileMd(mrkdown, { target: 'slack' })).toBe(slack);
+it.each([
+  ['slack', '```\ncode block\n```\n'],
+  ['html', '<pre><code>code block\n</code></pre>'],
+])('transpiles a code block for target: %s', (target, expected) => {
+  expect(transpileMd('```\ncode block\n```', { target })).toBe(expected);
 });
 
 test('Code block with newlines', () => {
