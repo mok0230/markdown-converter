@@ -25,14 +25,14 @@ module.exports = (markdown, options) => {
         .use(rehypeHighlight, options.highlight)
         .use(rehypeSanitize)
         .use(rehypeStringify)
-        .process(markdown)
+        .processSync(markdown)
       : unified()
         .use(parse)
         .use(gfm)
         .use(remarkRehype)
         .use(rehypeSanitize)
         .use(rehypeStringify)
-        .process(markdown);
+        .processSync(markdown);
 
     return String(vFile);
   }
