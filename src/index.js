@@ -2,10 +2,10 @@ const gfm = require('remark-gfm');
 const parse = require('remark-parse');
 const stringify = require('remark-stringify');
 const unified = require('unified');
-const remark2rehype = require('remark-rehype');
-const highlight = require('rehype-highlight');
+const remarkRehype = require('remark-rehype');
+const rehypeHighlight = require('rehype-highlight');
 const rehypeSanitize = require('rehype-sanitize');
-const html = require('rehype-stringify');
+const rehypeStringify = require('rehype-stringify');
 
 const { collectDefinitions, removeDefinitions } = require('./definitions');
 const createOptions = require('./transpile');
@@ -18,14 +18,21 @@ module.exports = (markdown, options) => {
 
   if (options.target === 'html') {
     const vFile = options.highlight
-    ? unified()
+      ? unified()
         .use(parse)
-        .use(remark2rehype)
-        .use(highlight, options?.highlight)
+        .use(gfm)
+        .use(remarkRehype)
+        .use(rehypeHighlight, options.highlight)
         .use(rehypeSanitize)
-        .use(html)
-        .process(md)
-    : unified().use(parse).use(remark2rehype).use(rehypeSanitize).use(html).process(md);
+        .use(rehypeStringify)
+        .process(markdown)
+      : unified()
+        .use(parse)
+        .use(gfm)
+        .use(remarkRehype)
+        .use(rehypeSanitize)
+        .use(rehypeStringify)
+        .process(markdown);
 
     return String(vFile);
   }
