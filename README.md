@@ -1,19 +1,13 @@
 # transpile-md
 
-**write messages once, transpile many times**
+## write a message once, transpile many times
+------
 
 <!-- TODO: add this content back once the infrastructure exists!
 ![Build Status](https://github.com/jsarafajr/slackify-markdown/workflows/Build%20CI/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/jsarafajr/slackify-markdown/branch/master/graph/badge.svg)](https://codecov.io/gh/jsarafajr/slackify-markdown) [![Known Vulnerabilities](https://snyk.io/test/github/jsarafajr/slackify-markdown/badge.svg)](https://snyk.io/test/github/jsarafajr/slackify-markdown) -->
 
-transpile-md converts [Github-flavored markdown](https://github.github.com/gfm/) to a target output such as:
-
-- HTML
-- Slack
-- Telegram
-- Discord
-
-This package is opinionated in transpiling features with mixed support across platforms. For instance, a title (`# My Title`) is supported in HTML (`<h1>My Title<h1>`) but not in various messaging platforms and may be converted, for instance, to bold (`*My Title*`).
+transpile-md converts [Github-flavored markdown](https://github.github.com/gfm/) to a target output such as HTML, Slack, Discord, and Telegram.
 
 ## Install
 
@@ -66,7 +60,7 @@ Required - valid values include:
 * slack ([Slack-flavored Markdown (mrkdwn)](https://api.slack.com/reference/surfaces/formatting))
 * telegram ([Telegram-flavored Markdown (MarkdownV2)](https://core.telegram.org/bots/api#markdownv2-style))
 * discord ([Discord-flavored Markdown](https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-))
-* safe-gfm (input markdown stripped of links with anchor text)
+* safe-md (input markdown with links escaped to prevent formatting of untrusted content)
 
 #### `options.highlight`
 

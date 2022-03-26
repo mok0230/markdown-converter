@@ -1,5 +1,5 @@
 interface Options {
-  target: 'html' | 'slack' | 'telegram' | 'discord' | 'safe-gfm';
+  target: 'html' | 'slack' | 'telegram' | 'discord' | 'safe-md';
   highlight: object;
 }
 

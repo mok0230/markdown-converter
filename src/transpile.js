@@ -1,5 +1,5 @@
 const { createDiscordHandlers } = require('./targets/discord');
-const { createSafeGfmHandlers } = require('./targets/safe-gfm');
+const { createsafeMdHandlers } = require('./targets/safe-md');
 const { createSlackHandlers } = require('./targets/slack');
 const { createTelegramHandlers } = require('./targets/telegram');
 
@@ -15,8 +15,8 @@ const createHandlers = (definitions, options) => {
       return createDiscordHandlers(definitions, options);
     case 'telegram':
       return createTelegramHandlers(definitions, options);
-    case 'safe-gfm':
-      return createSafeGfmHandlers(definitions, options);
+    case 'safe-md':
+      return createsafeMdHandlers(definitions, options);
     default:
       console.error('unknown target!');
       return {};

@@ -2,7 +2,7 @@ const {
   isURL, getLinkParams, getImageParams
 } = require('../utils');
 
-const createSafeGfmHandlers = (definitions, options) => ({
+const createsafeMdHandlers = (definitions, options) => ({
   link: (node, _parent, context) => {
     const { text, url } = getLinkParams(node, context, 'link');
 
@@ -37,4 +37,4 @@ const createSafeGfmHandlers = (definitions, options) => ({
   },
 });
 
-module.exports = { createSafeGfmHandlers };
+module.exports = { createsafeMdHandlers };
