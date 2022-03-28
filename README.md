@@ -3,23 +3,20 @@
 ## write markdown once, transpile many times
 
 <!-- TODO: add this content back once the infrastructure exists!
-![Build Status](https://github.com/jsarafajr/slackify-markdown/workflows/Build%20CI/badge.svg?branch=master)
-[![codecov](https://codecov.io/gh/jsarafajr/slackify-markdown/branch/master/graph/badge.svg)](https://codecov.io/gh/jsarafajr/slackify-markdown) [![Known Vulnerabilities](https://snyk.io/test/github/jsarafajr/slackify-markdown/badge.svg)](https://snyk.io/test/github/jsarafajr/slackify-markdown) -->
+![Build Status](https://github.com/mok0230/transpile-md/workflows/Build%20CI/badge.svg?branch=master)
+[![codecov](https://codecov.io/gh/mok0230/transpile-md/branch/master/graph/badge.svg)](https://codecov.io/gh/mok0230/transpile-md) [![Known Vulnerabilities](https://snyk.io/test/github/mok0230/transpile-md/badge.svg)](https://snyk.io/test/github/mok0230/transpile-md) -->
 
 transpile-md converts [Github-flavored markdown](https://github.github.com/gfm/) to a target output such as HTML, Slack, Discord, or Telegram.
 
 ## Install
 
-This package is not yet published on npm, so it must be installed directly from GitHub:
-
-```bash
-npm install git+https://github.com/mok0230/transpile-md.git
+ ```bash
+npm install transpile-md
 ```
 
-<!--TODO: add this back when package is on npm
- ```bash
-npm install slackify-markdown
-``` -->
+```bash
+yarn add transpile-md
+```
 
 ## Usage
 
