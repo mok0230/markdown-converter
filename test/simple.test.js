@@ -59,9 +59,11 @@ it.each([
 });
 
 it.each([
-  ['slack', 'this should be replaced & and this < and this >.', 'this should be replaced &amp; and this &lt; and this &gt;.\n'],
-  ['telegram', 'this should be escaped ` and this *.', 'this should be escaped \\` and this \\*.\n'],
-])('escapes text as expected for target: %s', (target, input, expected) => {
+  ['ampersand and gt/lt', 'slack', 'this should be replaced & and this < and this >.', 'this should be replaced &amp; and this &lt; and this &gt;.\n'],
+  ['backtick and asterisk', 'telegram', 'this should be escaped ` and this *.', 'this should be escaped \\` and this \\*.\n'],
+  ['open code block', 'telegram', 'this should be escaped ```.', 'this should be escaped \\`\\`\\`.\n'],
+  ['closed code block', 'telegram', 'this should be converted to newline\n```\nand\n```.', 'this should be converted to newline\n\nand\n\n.\n'],
+])('escapes %s text as expected for target: %s', (description, target, input, expected) => {
   expect(transpileMd(input, { target })).toBe(expected);
 });
 
