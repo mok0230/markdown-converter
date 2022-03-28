@@ -6,7 +6,7 @@
 ![Build Status](https://github.com/jsarafajr/slackify-markdown/workflows/Build%20CI/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/jsarafajr/slackify-markdown/branch/master/graph/badge.svg)](https://codecov.io/gh/jsarafajr/slackify-markdown) [![Known Vulnerabilities](https://snyk.io/test/github/jsarafajr/slackify-markdown/badge.svg)](https://snyk.io/test/github/jsarafajr/slackify-markdown) -->
 
-transpile-md converts [Github-flavored markdown](https://github.github.com/gfm/) to a target output such as HTML, Slack, Discord, and Telegram.
+transpile-md converts [Github-flavored markdown](https://github.github.com/gfm/) to a target output such as HTML, Slack, Discord, or Telegram.
 
 ## Install
 
