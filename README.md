@@ -54,7 +54,7 @@ Required - valid values include:
 
 * html (standard HTML)
 * slack ([Slack-flavored Markdown (mrkdwn)](https://api.slack.com/reference/surfaces/formatting))
-* telegram ([Telegram-flavored Markdown (MarkdownV2)](https://core.telegram.org/bots/api#markdownv2-style))
+* telegram ([Telegram-flavored Markdown](https://core.telegram.org/bots/api#markdown-style))
 * discord ([Discord-flavored Markdown](https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-))
 * safe-md (input markdown with links escaped to prevent formatting of untrusted content)
 
