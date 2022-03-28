@@ -1,7 +1,6 @@
 # transpile-md
 
-## write a message once, transpile many times
-------
+## write markdown once, transpile many times
 
 <!-- TODO: add this content back once the infrastructure exists!
 ![Build Status](https://github.com/jsarafajr/slackify-markdown/workflows/Build%20CI/badge.svg?branch=master)
