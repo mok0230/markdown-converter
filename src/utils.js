@@ -51,8 +51,26 @@ const getImageParams = (node, context, entityType, fallbackText) => {
   const url = encodeURI(node.url);
   exit();
 
-  return { text, url }
-}
+  return { text, url };
+};
+
+const replaceTextCharacters = replacements => (node, _parent, context) => {
+  if (!replacements || !replacements.length) return node.value;
+
+  const exit = context.enter('text');
+
+  const text = replacements.reduce(
+    (result, replacement) => result.replace(replacement.searchValue, replacement.newValue),
+    node.value,
+  );
+
+  exit();
+
+  // Do we need more escaping like the default handler uses?
+  // https://github.com/syntax-tree/mdast-util-to-markdown/blob/main/lib/handle/text.js
+  // https://github.com/syntax-tree/mdast-util-to-markdown/blob/main/lib/unsafe.js
+  return text;
+};
 
 module.exports = {
   wrap,
@@ -61,5 +79,6 @@ module.exports = {
   replaceUlMarker,
   wrapEntity,
   getLinkParams,
-  getImageParams
+  getImageParams,
+  replaceTextCharacters,
 };

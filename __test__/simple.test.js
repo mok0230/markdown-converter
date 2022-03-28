@@ -58,6 +58,13 @@ it.each([
   expect(transpileMd('***bold+italic***', { target })).toBe(expected);
 });
 
+it.each([
+  ['slack', 'this should be replaced & and this < and this >.', 'this should be replaced &amp; and this &lt; and this &gt;.\n'],
+  ['telegram', 'this should be escaped ` and this *.', 'this should be escaped \\` and this \\*.\n'],
+])('escapes text as expected for target: %s', (target, input, expected) => {
+  expect(transpileMd(input, { target })).toBe(expected);
+});
+
 test('Strike', () => {
   const mrkdown = '~~strike text~~';
   const slack = `${zws}~strike text~${zws}\n`;
