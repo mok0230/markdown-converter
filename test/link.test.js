@@ -107,3 +107,10 @@ it.each([
 ])('transpiles link in reference style with invalid definition for target: %s', (target, expected) => {
   expect(transpileMd('[Atlassian][test]\n\n[test]: /atlassian', { target })).toBe(expected);
 });
+
+it.each([
+  ['link alone', 'safe-md', 'https://www.atlassian.com', 'https://www.atlassian.com\n'],
+  ['link with identical anchor text', 'safe-md', '[https://www.atlassian.com](https://www.atlassian.com)', '[https://www.atlassian.com]\\(https://www.atlassian.com)\n'],
+])('transpiles %s for target: %s', (description, target, input, expected) => {
+  expect(transpileMd(input, { target })).toBe(expected);
+});
