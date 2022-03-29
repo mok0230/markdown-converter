@@ -1,17 +1,17 @@
 # Type of Change
 
-- [ ] Bug
-- [ ] Feature
-- [ ] Build
-- [ ] Chore
+- [ ] :rocket: Feature
+- [ ] :bug: Bug
+- [ ] :hammer: Build
+- [ ] :heavy_check_mark: Chore
 
 # Issue Link
 
-<!--- Link the associated GitHub Issue --->
+<!--- link the associated GitHub Issue --->
 
 ## Tasks
 
-<!--- Please check all boxes or include an explanation for unchecked boxes in Description --->
+<!--- please check all boxes or include an explanation for unchecked boxes in the Description section --->
 
 - [ ] This PR does not include any breaking changes
 - [ ] Unit tests have been added for any functional change (for bug fixes, please include a failing test that runs green based on code changes in this PR to demonstrate the bug)
@@ -19,5 +19,5 @@
 
 # Description
 
-<!--- Include any information not already in the associated issue --->
+<!--- include any information not already in the associated issue --->
 
