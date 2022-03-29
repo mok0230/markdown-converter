@@ -45,9 +45,8 @@ it.each([
   expect(transpileMd('[](http://atlassian.com)', { target })).toBe(expected);
 });
 
-// TODO: review if this could cause a link wth anchor text to be rendered and test above
-xit.each([
-  ['safe-md', 'click me (http://atlassian.com)\n'],
+it.each([
+  ['safe-md', '\\[click me]\\(http://maliciouslink.com)\n'],
 ])('transpiles a malicious link with no alt nor title for target: %s', (target, expected) => {
   expect(transpileMd('[click me][](http://maliciouslink.com)', { target })).toBe(expected);
 });
@@ -67,7 +66,6 @@ it.each([
   expect(transpileMd('[Atlassian]\n\n[atlassian]: http://atlassian.com', { target })).toBe(expected);
 });
 
-// TODO: review if this could cause a link wth anchor text to be rendered
 it.each([
   ['slack', '<http://atlassian.com>\n'],
   ['safe-md', '\\(http://atlassian.com)\n'],
