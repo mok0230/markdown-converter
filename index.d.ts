@@ -1,5 +1,7 @@
+type TranspileTarget = 'html' | 'slack' | 'telegram' | 'discord' | 'safe-md';
+
 interface TranspileOptions {
-  target: 'html' | 'slack' | 'telegram' | 'discord' | 'safe-md';
+  target: TranspileTarget;
   highlight?: object;
 }
 
