@@ -21,7 +21,7 @@ yarn add transpile-md
 ## Usage
 
 ```js
-const transpileMd = require('transpile-md');
+const { transpileMd } = require('transpile-md');
 const markdown = `
 **List of items**
 
@@ -46,11 +46,21 @@ transpileMd(markdown, { target: 'slack' });
 
 ## API
 
+### Exports
+
+This module has no default export. There are 3 exported functions:
+
+1. `transpileMd` => transpile to any target listed below in `options.target`
+2. `transpileMdToHtml` => transpile only to html (not required to include `options.target`)
+3. `transpileMdExcludeHtml` => transpile to any target besides html
+
+The thin functions (#2 and #3 above) offer no additional functionality, but are optimized for use on the client-side to prevent inclusion of unnecessary dependencies.
+
 ### `options`
 
 #### `options.target`
 
-Required - valid values include:
+Required for `transpileMd` and `transpileMdExcludeHtml` - valid values include:
 
 * html (standard HTML)
 * slack ([Slack-flavored Markdown (mrkdwn)](https://api.slack.com/reference/surfaces/formatting))
@@ -62,6 +72,6 @@ Required - valid values include:
 
 HTML can be highlighted by assigning valid [rehype-highlight](https://github.com/rehypejs/rehype-highlight#api) options to the `options.highlight` parameter. 
 
-This is only valid with `target: html`. It will be ignored for other targets.
+This is only valid with the `transpileMd` function with `target: html` or the `transpileMdToHtml` function. It will be ignored for other targets.
 
 _Credit to [slackify-markdown](https://github.com/jsarafajr/slackify-markdown) for providing the basis for this package._

@@ -1,4 +1,4 @@
-const transpileMd = require('..');
+const { transpileMd } = require('..');
 
 it.each([
   ['slack', '•   list\n•   list\n•   list\n'],

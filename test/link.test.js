@@ -1,4 +1,4 @@
-const transpileMd = require('..');
+const { transpileMd } = require('..');
 
 it.each([
   ['slack', '<http://atlassian.com|Atlassian>\n'],

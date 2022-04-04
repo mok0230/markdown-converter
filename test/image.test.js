@@ -1,4 +1,4 @@
-const transpileMd = require('..');
+const { transpileMd } = require('..');
 
 test('Image with title', () => {
   const mrkdown = '![](https://bitbucket.org/repo/123/images/logo.png "test")';
