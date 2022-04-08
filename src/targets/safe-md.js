@@ -6,11 +6,6 @@ const createsafeMdHandlers = (definitions, options) => ({
   link: (node, _parent, context) => {
     const { text, url } = getLinkParams(node, context, 'link');
 
-    // if node is url alone, return it
-    if (text === url && node.position.end.offset - node.position.start.offset === url.length) {
-      return url;
-    }
-
     return text ? `[${text}]\\(${url})` : `\\(${url})`;
   },
 
