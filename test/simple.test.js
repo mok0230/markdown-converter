@@ -1,4 +1,4 @@
-const { transpileMd } = require('..');
+const transpileMd = require('..');
 
 const zws = String.fromCharCode(0x200B); // zero-width-space
 

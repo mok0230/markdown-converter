@@ -1,4 +1,4 @@
-const { transpileMd } = require('..');
+const transpileMd = require('..');
 
 test('User mention', () => {
   const mrkdown = '<@UPXGB22A2>';
