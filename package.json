@@ -1,6 +1,6 @@
 {
   "name": "transpile-md",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "write messages once, transpile many times",
   "license": "MIT",
   "main": "index.js",
