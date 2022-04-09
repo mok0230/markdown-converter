@@ -6,7 +6,12 @@ const createsafeMdHandlers = (definitions, options) => ({
   link: (node, _parent, context) => {
     const { text, url } = getLinkParams(node, context, 'link');
 
-    return text ? `[${text}]\\(${url})` : `\\(${url})`;
+    // if node is url alone, form a link with transparent anchor text
+    if (text === url && node.position.end.offset - node.position.start.offset === url.length) {
+      return `[${url}](${url})`;
+    }
+
+    return text ? `[${text}]([${url}](${url}))` : `[${url}](${url})`;
   },
 
   linkReference: (node, _parent, context) => {
@@ -19,13 +24,13 @@ const createsafeMdHandlers = (definitions, options) => ({
       if (!definition || !isURL(definition.url)) return `\\${text}`;
     }
 
-    return text ? `[${text}]\\(${definition.url})` : `\\(${definition.url})`;
+    return text ? `[${text}]([${text}]${definition.url})` : `[${definition.url}](${definition.url})`;
   },
 
   image: (node, _parent, context) => {
     const { text, url } = getImageParams(node, context, 'image', node.title);
 
-    return text ? `[${text}]\\(${url})` : `\\(${url})`;
+    return text ? `[${text}]\\([${url}](${url}))` : `[${url}](${url})`;
   },
 
   imageReference: (node, _parent, context) => {
@@ -33,7 +38,7 @@ const createsafeMdHandlers = (definitions, options) => ({
 
     const { text } = getImageParams(node, context, 'imageReference', definition ? definition.title : '');
 
-    return text ? `[${text}]\\(${definition.url})` : `\\(${definition.url})`;
+    return text ? `[${text}]([${definition.url}]${definition.url})` : `[${definition.url}](${definition.url})`;
   },
 });
 
