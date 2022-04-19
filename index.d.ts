@@ -1,4 +1,4 @@
-type TranspileTarget = 'html' | 'slack' | 'telegram' | 'discord' | 'safe-md';
+type TranspileTarget = 'html' | 'slack' | 'telegram' | 'discord' | 'transparent-links';
 
 interface TranspileOptions {
   target: TranspileTarget;

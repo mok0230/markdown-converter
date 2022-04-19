@@ -56,7 +56,7 @@ Required - valid values include:
 * slack ([Slack-flavored Markdown (mrkdwn)](https://api.slack.com/reference/surfaces/formatting))
 * telegram ([Telegram-flavored Markdown](https://core.telegram.org/bots/api#markdown-style))
 * discord ([Discord-flavored Markdown](https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-))
-* safe-md (input markdown with anchor text links escaped to prevent formatting of untrusted content)
+* transparent-links (input markdown without opaque anchor text on links (e.g. `[my link](http://example.com)` => `[my link]([http://example.com](http://example.com))`))
 
 #### `options.highlight`
 

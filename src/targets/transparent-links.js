@@ -1,13 +1,17 @@
 const {
-  isURL, getLinkParams, getImageParams
+  isURL, getLinkParams, getImageParams,
 } = require('../utils');
 
-const createsafeMdHandlers = (definitions, options) => ({
+const createTransparentLinksHandlers = (definitions, options) => ({
   link: (node, _parent, context) => {
     const { text, url } = getLinkParams(node, context, 'link');
 
-    // if node is url alone, form a link with transparent anchor text
-    if (text === url && node.position.end.offset - node.position.start.offset === url.length) {
+    console.log('type link');
+    console.log('text', text);
+    console.log('url', url);
+
+    // mdast parses a link alone as both the text and url, in that case form a transparent link
+    if (text === url) {
       return `[${url}](${url})`;
     }
 
@@ -21,16 +25,16 @@ const createsafeMdHandlers = (definitions, options) => ({
 
     if (!text) {
       text = definition ? definition.title : null;
-      if (!definition || !isURL(definition.url)) return `\\${text}`;
+      if (!definition || !isURL(definition.url)) return `${text}`;
     }
 
-    return text ? `[${text}]([${text}]${definition.url})` : `[${definition.url}](${definition.url})`;
+    return text ? `[${text}]([${definition.url}](${definition.url}))` : `[${definition.url}](${definition.url})`;
   },
 
   image: (node, _parent, context) => {
     const { text, url } = getImageParams(node, context, 'image', node.title);
 
-    return text ? `[${text}]\\([${url}](${url}))` : `[${url}](${url})`;
+    return text ? `[${text}]([${url}](${url}))` : `[${url}](${url})`;
   },
 
   imageReference: (node, _parent, context) => {
@@ -38,8 +42,8 @@ const createsafeMdHandlers = (definitions, options) => ({
 
     const { text } = getImageParams(node, context, 'imageReference', definition ? definition.title : '');
 
-    return text ? `[${text}]([${definition.url}]${definition.url})` : `[${definition.url}](${definition.url})`;
+    return text ? `[${text}]([${definition.url}](${definition.url}))` : `[${definition.url}](${definition.url})`;
   },
 });
 
-module.exports = { createsafeMdHandlers };
+module.exports = { createTransparentLinksHandlers };
