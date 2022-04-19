@@ -1,5 +1,5 @@
 const {
-  wrapEntity, replaceUlMarker, replaceTextCharacters,
+  wrapEntity, replaceUlMarker, replaceTextCharacters, getLinkParams,
 } = require('../utils');
 
 // see https://core.telegram.org/bots/api#markdown-style
@@ -15,6 +15,12 @@ const createTelegramHandlers = (definitions, options) => ({
   // which causes the telegram API call to fail
   // to ensure stability, we do not support code blocks in telegram
   code: replaceTextCharacters([{ searchValue: /```/g, newValue: '\n' }]),
+
+  link: (node, _parent, context) => {
+    const { text, url } = getLinkParams(node, context, 'link');
+
+    return text ? `[${text}](${url})` : `[${url}](${url})`;
+  },
 });
 
 module.exports = { createTelegramHandlers };

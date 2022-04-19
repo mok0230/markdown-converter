@@ -4,7 +4,7 @@ describe('link', () => {
   it.each([
     ['slack', '<http://atlassian.com|Atlassian>\n'],
     ['discord', '[](http://atlassian.com "Atlassian")\n'],
-    ['telegram', '[](http://atlassian.com "Atlassian")\n'],
+    ['telegram', '[Atlassian](http://atlassian.com)\n'],
     ['transparent-links', 'Atlassian ([http://atlassian.com](http://atlassian.com))\n'],
     ['html', '<p><a href="http://atlassian.com" title="Atlassian"></a></p>'],
   ])('transpiles link with title for target: %s', (target, expected) => {
@@ -24,7 +24,7 @@ describe('link', () => {
   it.each([
     ['slack', '<http://atlassian.com|test>\n'],
     ['discord', '[test](http://atlassian.com "Atlassian")\n'],
-    ['telegram', '[test](http://atlassian.com "Atlassian")\n'],
+    ['telegram', '[test](http://atlassian.com)\n'],
     ['transparent-links', 'test ([http://atlassian.com](http://atlassian.com))\n'],
     ['html', '<p><a href="http://atlassian.com" title="Atlassian">test</a></p>'],
   ])('transpiles link with alt and title for target: %s', (target, expected) => {
@@ -114,6 +114,7 @@ describe('link', () => {
 
   it.each([
     ['link alone', 'transparent-links', 'https://www.atlassian.com', '[https://www.atlassian.com](https://www.atlassian.com)\n'],
+    ['link alone', 'telegram', 'https://www.atlassian.com', '[https://www.atlassian.com](https://www.atlassian.com)\n'],
     ['link with identical anchor text', 'transparent-links', '[https://www.atlassian.com](https://www.atlassian.com)', '[https://www.atlassian.com](https://www.atlassian.com)\n'],
   ])('transpiles %s for target: %s', (description, target, input, expected) => {
     expect(transpileMd(input, { target })).toBe(expected);
